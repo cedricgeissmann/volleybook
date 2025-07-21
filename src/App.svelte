@@ -1,12 +1,21 @@
 <script>
 
+import { onMount } from 'svelte'
+
+onMount( async () => {
+    const baseColors = localStorage.getItem("base-colors")
+    document.body.setAttribute("style", baseColors)
+})
+
 function pickColor(ev) {
     const lightness = getLightnessFromHey(ev.target.value)
     console.log(lightness)
-    document.body.setAttribute("style", `
+    const baseColors = `
         --base-color: ${ev.target.value};
         --text-color: ${lightness > 60 ? "black" : "white"}    
-    `)
+    `
+    localStorage.setItem("base-colors", baseColors)
+    document.body.setAttribute("style", baseColors)
 }
 
 function getLightnessFromHey(hex) {
